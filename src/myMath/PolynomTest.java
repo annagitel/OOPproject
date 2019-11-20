@@ -61,7 +61,7 @@ public class PolynomTest {
 
 	}
 	public static void test3() {
-		String [] polys = {"-4.7x^2-x+6", "-1.7x^3-1.5x^2+0.7x+8", "-4.7x^2-x+6", "-4.7x^2-x+6",  "1.7x^2+1.7x+2", "-3x^2+0.7x+8", "-5.1x^4-3x^3+8.7x^2+15x+16"};
+		String [] polys = {"-4.7x^2-x+6", "-1.7x^3-1.5x^2+0.7x+8", "1.7x^2+1.7x+2", "-3x^2+0.7x+8", "-5.1x^4-3x^3+8.7x^2+15x+16"};
 		int count = 0;
 		for (int i = 0; i < polys.length; i++) {
 			Polynom poly = new Polynom(polys[i]);

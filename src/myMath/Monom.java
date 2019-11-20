@@ -1,4 +1,3 @@
-
 package myMath;
 
 import java.net.StandardSocketOptions;
@@ -12,13 +11,90 @@ import java.util.Comparator;
  * @author anna
  */
 public class Monom implements function{
+	/***************final objects***********************/
 	public static final Monom ZERO = new Monom(0,0);
 	public static final Monom MINUS1 = new Monom(-1,0);
 	public static final double EPSILON = 0.0000001;
-
-
 	public static final Comparator<Monom> _Comp = new Monom_Comperator();
 	public static Comparator<Monom> getComp() {return _Comp;}
+
+	/****************** Private Methods and Data *****************/
+	private Boolean isMonom(String s){
+		int dot = 0;
+		int pow = 0;
+		int x = 0;
+		int minus = 0;
+		for (int i=0;i<s.length();i++){
+			if (s.charAt(i) == '.') {dot++;}
+			if (s.charAt(i) == 'x') {x++;}
+			if (s.charAt(i) == '^') {pow++;}
+			if (s.charAt(i) == '-') {minus++;}
+		}
+		if ((minus>1)||(dot>1)||(pow>1)||(x>1)) //not more than one x^-.
+			return false;
+		if (minus==1 && (s.indexOf('-')!=0 || s.indexOf('-')==s.length()-1)) // - must be first and not last
+			return false;
+		if ((pow==1) && (x!=1)) // cant be ^ without x
+			return false;
+		if(s.indexOf('^')==s.length()-1) // ^ cant be last
+			return false;
+		if (x==0 && pow==0){ //number only case
+			return check_coef(s);
+		}
+		if (x==1 && pow==0){  //no power case
+			if (!check_coef(s.substring(0,s.indexOf('x'))) || s.indexOf('x')!=s.length()-1)
+				return false;
+		}
+		if (x==1 && pow==1){   //full monom case
+			if ((s.indexOf('^') - s.indexOf('x')) != 1)
+				return false;
+			if (!check_coef(s.substring(0,s.indexOf('x'))) || !check_pow(s.substring(s.indexOf('^')+1,s.length())))
+				return false;
+		}
+		return true;
+	}
+	private boolean check_coef(String s){
+		if (s.length()==0)
+			return true;
+		if (s.length()<2){
+			if (s.charAt(0)=='-' || ((s.charAt(0)>='0' && s.charAt(0)<='9')) ){
+				return true;
+			}
+		}
+		for (int i=0;i<s.length();i++){
+			char c = s.charAt(i);
+			if (c=='-' || c=='.' ||(c>='0' && c<='9')){
+				if(c=='.'){
+					if (s.charAt(i-1)<'0' || s.charAt(i-1)>'9'|| s.charAt(i+1)<'0' || s.charAt(i+1)>'9')
+						return false;
+				}
+			}
+			if ((s.charAt(0)=='-' && s.charAt(1)=='0' && s.charAt(2)!='.') || (s.charAt(0)=='0' && s.charAt(1)!='.'))
+				return false;
+		}
+		return true;
+	}
+	private boolean check_pow(String s){
+		if(s.charAt(0)=='0')
+			return false;
+		for(int i=0;i<s.length();i++){
+			if (s.charAt(i)<'0'|| s.charAt(i)>'9')
+				return false;
+		}
+		return true;
+	}
+	private void set_coefficient(double a){
+		this._coefficient = a;
+	}
+	private void set_power(int p) {
+		if(p<0) {throw new RuntimeException("ERR the power of Monom should not be negative, got: "+p);}
+		this._power = p;
+	}
+	private static Monom getNewZeroMonom() {return new Monom(ZERO);}
+	private double _coefficient;
+	private int _power;
+
+	/*****************************constractors***************************************/
 	public Monom(double a, int b){
 		this.set_coefficient(a);
 		this.set_power(b);
@@ -26,35 +102,6 @@ public class Monom implements function{
 	public Monom(Monom ot) {
 		this(ot.get_coefficient(), ot.get_power());
 	}
-	
-	public double get_coefficient() {
-		return this._coefficient;
-	}
-
-	public int get_power() {
-		return this._power;
-	}
-	/** 
-	 * this method returns the derivative monom of this.
-	 * @return
-	 */
-	public Monom derivative() {
-		if(this.get_power()==0) {return getNewZeroMonom();}
-		return new Monom(this.get_coefficient()*this.get_power(), this.get_power()-1);
-	}
-
-	public double f(double x) {
-		double ans=0;
-		double p = this.get_power();
-		ans = this.get_coefficient()*Math.pow(x, p);
-		return ans;
-	}
-
-	public boolean isZero() {
-		return this.get_coefficient() == 0;
-	}
-
-	// ***************** add your code below **********************
 	public Monom(String s) throws RuntimeException{
 		if (!isMonom(s))
 			throw new RuntimeException("The string is not a valid Monom format");
@@ -84,6 +131,32 @@ public class Monom implements function{
 			else if (pow==1)
 				set_power(Integer.parseInt(s.substring(s.indexOf('^')+1,s.length())));
 		}
+	}
+
+	/************* getters *************/
+	public double get_coefficient() {
+		return this._coefficient;
+	}
+	public int get_power() {
+		return this._power;
+	}
+
+
+	/*********** public methods **********/
+	public Monom derivative() {
+		if(this.get_power()==0) {return getNewZeroMonom();}
+		return new Monom(this.get_coefficient()*this.get_power(), this.get_power()-1);
+	}
+
+	public double f(double x) {
+		double ans=0;
+		double p = this.get_power();
+		ans = this.get_coefficient()*Math.pow(x, p);
+		return ans;
+	}
+
+	public boolean isZero() {
+		return this.get_coefficient() == 0;
 	}
 
 	public Monom negative(){
@@ -145,81 +218,7 @@ public class Monom implements function{
 		return false;
 	}
 
-	//****************** Private Methods and Data *****************
-	private Boolean isMonom(String s){
-		int dot = 0;
-		int pow = 0;
-		int x = 0;
-		int minus = 0;
-		for (int i=0;i<s.length();i++){
-			if (s.charAt(i) == '.') {dot++;}
-			if (s.charAt(i) == 'x') {x++;}
-			if (s.charAt(i) == '^') {pow++;}
-			if (s.charAt(i) == '-') {minus++;}
-		}
-		if ((minus>1)||(dot>1)||(pow>1)||(x>1)) //not more than one x^-.
-			return false;
-		if (minus==1 && (s.indexOf('-')!=0 || s.indexOf('-')==s.length()-1)) // - must be first and not last
-			return false;
-		if ((pow==1) && (x!=1)) // cant be ^ without x
-			return false;
-		if(s.indexOf('^')==s.length()-1) // ^ cant be last
-		 	return false;
-		if (x==0 && pow==0){ //number only case
-			return check_coef(s);
-		}
-		if (x==1 && pow==0){  //no power case
-			if (!check_coef(s.substring(0,s.indexOf('x'))) || s.indexOf('x')!=s.length()-1)
-				return false;
-		}
-		if (x==1 && pow==1){   //full monom case
-			if ((s.indexOf('^') - s.indexOf('x')) != 1)
-				return false;
-			if (!check_coef(s.substring(0,s.indexOf('x'))) || !check_pow(s.substring(s.indexOf('^')+1,s.length())))
-				return false;
-		}
-		return true;
-	}
-	private boolean check_coef(String s){
-		if (s.length()==0)
-			return true;
-		if (s.length()<2){
-			if (s.charAt(0)=='-' || ((s.charAt(0)>='0' && s.charAt(0)<='9')) ){
-				return true;
-			}
-		}
-		for (int i=0;i<s.length();i++){
-			char c = s.charAt(i);
-			if (c=='-' || c=='.' ||(c>='0' && c<='9')){
-				if(c=='.'){
-					if (s.charAt(i-1)<'0' || s.charAt(i-1)>'9'|| s.charAt(i+1)<'0' || s.charAt(i+1)>'9')
-						return false;
-				}
-			}
-			if ((s.charAt(0)=='-' && s.charAt(1)=='0' && s.charAt(2)!='.') || (s.charAt(0)=='0' && s.charAt(1)!='.'))
-				return false;
-		}
-		return true;
-	}
-	private boolean check_pow(String s){
-		if(s.charAt(0)=='0')
-			return false;
-		for(int i=0;i<s.length();i++){
-			if (s.charAt(i)<'0'|| s.charAt(i)>'9')
-				return false;
-		}
-		return true;
-	}
-	private void set_coefficient(double a){
-		this._coefficient = a;
-	}
-	private void set_power(int p) {
-		if(p<0) {throw new RuntimeException("ERR the power of Monom should not be negative, got: "+p);}
-		this._power = p;
-	}
-	private static Monom getNewZeroMonom() {return new Monom(ZERO);}
-	private double _coefficient; 
-	private int _power;
+
 	
 	
 }

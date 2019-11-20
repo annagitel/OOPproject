@@ -3,8 +3,8 @@ package myMath;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.function.Predicate;
-
 import myMath.Monom;
+
 /**
  * This class represents a Polynom with add, multiply functionality, it also should support the following:
  * 1. Riemann's Integral: https://en.wikipedia.org/wiki/Riemann_integral
@@ -61,7 +61,6 @@ public class Polynom implements Polynom_able{
 	/************************************public methods ******************************************************************/
 	@Override
 	public double f(double x) {
-		// TODO Auto-generated method stub
 		double sum = 0;
 		Iterator<Monom> polynomIterator = this.iteretor();
 		while(polynomIterator.hasNext()){
@@ -73,7 +72,6 @@ public class Polynom implements Polynom_able{
 
 	@Override
 	public void add(Monom m1) {
-		// TODO Auto-generated method stub
 		Iterator<Monom> polynomIterator = currentPolynom.iterator();
 		while (polynomIterator.hasNext())
 		{
@@ -92,7 +90,6 @@ public class Polynom implements Polynom_able{
 
 	@Override
 	public void add(Polynom_able p1) {
-		// TODO Auto-generated method stub
 		Iterator<Monom> monomIterator = p1.iteretor();
 		while (monomIterator.hasNext())
 			this.add(monomIterator.next());
@@ -100,7 +97,6 @@ public class Polynom implements Polynom_able{
 
 	@Override
 	public void substract(Polynom_able p1) {
-		// TODO Auto-generated method stub
 		Iterator<Monom> monomIterator = p1.iteretor();
 		Polynom negPoly = new Polynom();
 		while (monomIterator.hasNext()) {
@@ -111,7 +107,6 @@ public class Polynom implements Polynom_able{
 
 	@Override
 	public void multiply(Polynom_able p1) {
-		// TODO Auto-generated method stub
 		Iterator<Monom> thisMonomIterator = this.iteretor();
 		Iterator<Monom> givenMonomIterator = p1.iteretor();
 		Polynom newPolynom =new Polynom();
@@ -133,7 +128,6 @@ public class Polynom implements Polynom_able{
 
 	@Override
 	public boolean equals(Polynom_able p1) {
-		// TODO Auto-generated method stub
 		Iterator<Monom> thisMonomIterator = this.iteretor();
 		Iterator<Monom> givenMonomIterator = p1.iteretor();
 
@@ -149,7 +143,6 @@ public class Polynom implements Polynom_able{
 
 	@Override
 	public boolean isZero() {
-		// TODO Auto-generated method stub
 		ArrayList<Monom> newPoly = new ArrayList<Monom>();
 		Iterator<Monom> monomIterator = this.iteretor();
 		while (monomIterator.hasNext()){
@@ -162,7 +155,6 @@ public class Polynom implements Polynom_able{
 
 	@Override
 	public double root(double x0, double x1, double eps) {
-		// TODO Auto-generated method stub
 		if (x0 *x1 <= 0 || f(x0)*f(x1)<= 0) {
 			double middle = (x1 + x0) / 2;
 			if (Math.abs(f(middle)) < eps)
@@ -185,7 +177,6 @@ public class Polynom implements Polynom_able{
 
 	@Override
 	public Polynom_able copy(){
-		// TODO Auto-generated method stub
 		ArrayList<Monom> newPoly = new ArrayList<Monom>();
 		Iterator<Monom> monomIterator = this.iteretor();
 		while (monomIterator.hasNext()){
@@ -198,7 +189,6 @@ public class Polynom implements Polynom_able{
 
 	@Override
 	public Polynom_able derivative() {
-		// TODO Auto-generated method stub
 			Polynom derivatedPolynom = new Polynom();
 			Iterator<Monom> monomIterator = this.iteretor();
 			while (monomIterator.hasNext()) {
@@ -212,7 +202,6 @@ public class Polynom implements Polynom_able{
 
 	@Override
 	public double area(double x0, double x1, double eps) {
-		// TODO Auto-generated method stub
 		double sum =0;
 		double min = Math.min(x0,x1);
 		double max = Math.max(x0,x1);
@@ -226,12 +215,10 @@ public class Polynom implements Polynom_able{
 	}
 
 	public Iterator<Monom> iteretor() {
-		// TODO Auto-generated method stub
 		return currentPolynom.iterator();
 	}
 	@Override
 	public void multiply(Monom m1) {
-		// TODO Auto-generated method stub
 		Iterator<Monom> monomIterator = this.iteretor();
 		while (monomIterator.hasNext()){
 			Monom current = monomIterator.next();
