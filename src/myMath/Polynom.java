@@ -126,7 +126,6 @@ public class Polynom implements Polynom_able{
 		this.add(newPolynom);
 	}
 
-	@Override
 	public boolean equals(Polynom_able p1) {
 		Iterator<Monom> thisMonomIterator = this.iteretor();
 		Iterator<Monom> givenMonomIterator = p1.iteretor();
@@ -242,6 +241,11 @@ public class Polynom implements Polynom_able{
 			}
 		}
 		return s;
+	}
+
+	@Override //TODO
+	public function initFromString(String s) {
+		return null;
 	}
 
 	public int size(){

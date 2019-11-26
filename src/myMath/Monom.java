@@ -210,6 +210,16 @@ public class Monom implements function{
 		return (coefs+pows);
 	}
 
+	@Override
+	public function initFromString(String s) {
+		return null;
+	}
+
+	@Override
+	public function copy() {
+		return null;
+	}
+
 	public boolean equals(Monom a) {
 		if (a.get_coefficient()==0 && this.get_coefficient()==0)
 			return true;
