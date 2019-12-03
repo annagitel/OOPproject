@@ -126,12 +126,12 @@ public class Polynom implements Polynom_able{
 		this.add(newPolynom);
 	}
 
+	@Override
 	public boolean equals(Polynom_able p1) {
 		Iterator<Monom> thisMonomIterator = this.iteretor();
 		Iterator<Monom> givenMonomIterator = p1.iteretor();
-
-		while(givenMonomIterator.hasNext() && thisMonomIterator.hasNext()){
-			if(!givenMonomIterator.next().equals(thisMonomIterator.next()))
+		while(givenMonomIterator.hasNext() && thisMonomIterator.hasNext()) {
+			if (!givenMonomIterator.next().equals(thisMonomIterator.next()))
 				return false;
 		}
 		if(givenMonomIterator.hasNext() || thisMonomIterator.hasNext())
@@ -141,7 +141,7 @@ public class Polynom implements Polynom_able{
 	}
 
 	@Override
-	public boolean isZero() {
+	public boolean isZero(){
 		ArrayList<Monom> newPoly = new ArrayList<Monom>();
 		Iterator<Monom> monomIterator = this.iteretor();
 		while (monomIterator.hasNext()){
@@ -176,14 +176,14 @@ public class Polynom implements Polynom_able{
 
 	@Override
 	public Polynom_able copy(){
-		ArrayList<Monom> newPoly = new ArrayList<Monom>();
+		Polynom_able newPoly = new Polynom();
 		Iterator<Monom> monomIterator = this.iteretor();
 		while (monomIterator.hasNext()){
 			Monom current = monomIterator.next();
 			Monom newMonom = new Monom(current.get_coefficient(),current.get_power());
 			newPoly.add(newMonom);
 		}
-		return null;
+		return newPoly;
 	}
 
 	@Override
