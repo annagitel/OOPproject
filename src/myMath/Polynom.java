@@ -126,10 +126,10 @@ public class Polynom implements Polynom_able{
 		this.add(newPolynom);
 	}
 
-	@Override
-	public boolean equals(Polynom_able p1) {
+	@Override 
+	public boolean equals(Object p1) {
 		Iterator<Monom> thisMonomIterator = this.iteretor();
-		Iterator<Monom> givenMonomIterator = p1.iteretor();
+		Iterator<Monom> givenMonomIterator = (Iterator<Monom>) p1;
 		while(givenMonomIterator.hasNext() && thisMonomIterator.hasNext()) {
 			if (!givenMonomIterator.next().equals(thisMonomIterator.next()))
 				return false;
