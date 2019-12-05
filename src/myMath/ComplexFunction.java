@@ -1,6 +1,15 @@
 package myMath;
 
+import com.sun.source.tree.ReturnTree;
+
 public class ComplexFunction implements complex_function {
+    /************constractors**********************************/
+    public ComplexFunction(ComplexFunction obj) {
+
+    }
+
+
+    /******************public functions****************************/
     @Override
     public void plus(function f1) {
 
@@ -59,5 +68,18 @@ public class ComplexFunction implements complex_function {
     @Override
     public function copy() {
         return null;
+    }
+
+    @Override
+    public String toString(){
+        return null;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if (!(obj instanceof ComplexFunction))
+            return false;
+        ComplexFunction comp = new ComplexFunction((ComplexFunction) obj);
+        return true;
     }
 }

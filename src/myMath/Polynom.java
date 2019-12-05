@@ -126,10 +126,13 @@ public class Polynom implements Polynom_able{
 		this.add(newPolynom);
 	}
 
-	@Override 
+	@Override
 	public boolean equals(Object p1) {
+		if (!(p1 instanceof Polynom))
+			return false;
+		Polynom poly = new Polynom((Polynom) p1);
 		Iterator<Monom> thisMonomIterator = this.iteretor();
-		Iterator<Monom> givenMonomIterator = (Iterator<Monom>) p1;
+		Iterator<Monom> givenMonomIterator = poly.iteretor();
 		while(givenMonomIterator.hasNext() && thisMonomIterator.hasNext()) {
 			if (!givenMonomIterator.next().equals(thisMonomIterator.next()))
 				return false;

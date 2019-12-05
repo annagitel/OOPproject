@@ -1,5 +1,7 @@
 package myMath;
 
+import org.junit.Test;
+
 import java.net.StandardSocketOptions;
 import java.util.Comparator;
 
@@ -220,15 +222,16 @@ public class Monom implements function{
 		return null;
 	}
 
-	public boolean equals(Monom a) {
-		if (a.get_coefficient()==0 && this.get_coefficient()==0)
+	@Override
+	public boolean equals(Object a) {
+		if (!(a instanceof Monom))
+			return false;
+		Monom mon = new Monom((Monom) a);
+		if (mon.get_coefficient()==0 && this.get_coefficient()==0)
 			return true;
-		if (a.get_power()==this.get_power() && a.get_coefficient()==this.get_coefficient())
+		if (Math.abs(mon.get_power()-this.get_power())<EPSILON && Math.abs(mon.get_coefficient()-this.get_coefficient())<EPSILON)
 			return true;
 		return false;
 	}
 
-
-	
-	
 }
