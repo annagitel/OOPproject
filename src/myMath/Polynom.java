@@ -246,9 +246,9 @@ public class Polynom implements Polynom_able{
 		return s;
 	}
 
-	@Override //TODO
 	public function initFromString(String s) {
-		return null;
+		Polynom newP = new Polynom(s);
+		return newP;
 	}
 
 	public int size(){
@@ -261,7 +261,4 @@ public class Polynom implements Polynom_able{
 		return count;
 	}
 
-	/************************************private methods ******************************************************************/
-
-	
 }

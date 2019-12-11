@@ -1,78 +1,186 @@
 package myMath;
-
 import com.sun.source.tree.ReturnTree;
-
+import myMath.Monom.*;
 public class ComplexFunction implements complex_function {
-    /************constractors**********************************/
-    public ComplexFunction(ComplexFunction obj) {
+    /************ private objects*****************************/
+    private Operation op = Operation.None;
+    private function left ;
+    private function right = null;
 
+    /************ getters*************************************/
+    public function left() {
+        return this.left;
     }
 
+    public function right() {
+        return this.right;
+    }
+
+    public Operation getOp() {
+        return this.op;
+    }
+    /************constractors**********************************/
+
+    public ComplexFunction(function l){ //init from single function object
+        op = Operation.None;
+        left = l;
+        right = null;
+    }
+
+    public ComplexFunction(ComplexFunction comp){ //copy constractor
+        this.op = comp.getOp();
+        this.left = comp.left();
+        this.right = comp.right();
+    }
+    public ComplexFunction(Operation o, function l, function r){ //init with given objects
+        this.op = o;
+        this.left = l;
+        this.right = r;
+    }
+    public ComplexFunction(String s){
+        initFromString(s);
+    }
 
     /******************public functions****************************/
-    @Override
     public void plus(function f1) {
-
+        this.left = this.copy();
+        this.right = f1;
+        this.op = Operation.Plus;
     }
 
-    @Override
     public void mul(function f1) {
-
+        this.left = this.copy();
+        this.right = f1;
+        this.op = Operation.Times;
     }
 
-    @Override
     public void div(function f1) {
-
+        this.left = this.copy();
+        this.right = f1;
+        this.op = Operation.Divid;
     }
 
-    @Override
     public void max(function f1) {
-
+        this.left = this.copy();
+        this.right = f1;
+        this.op = Operation.Max;
     }
 
-    @Override
     public void min(function f1) {
-
+        this.left = this.copy();
+        this.right = f1;
+        this.op = Operation.Min;
     }
 
-    @Override
     public void comp(function f1) {
-
+        this.left = this.copy();
+        this.right = f1;
+        this.op = Operation.Comp;
     }
 
-    @Override
-    public function left() {
-        return null;
-    }
-
-    @Override
-    public function right() {
-        return null;
-    }
-
-    @Override
-    public Operation getOp() {
-        return null;
-    }
-
-    @Override
     public double f(double x) {
-        return 0;
+        switch (this.getOp()){
+            case Plus:
+                return (this.left().f(x)+this.right().f(x));
+            case Divid:
+                return (this.left().f(x)/this.right().f(x));
+            case Times:
+                return (this.left().f(x)*this.right().f(x));
+            case Min:
+                return Math.min(this.left().f(x),this.right().f(x));
+            case Max:
+                return Math.max(this.left().f(x),this.right().f(x));
+            case Comp:
+                return this.left.f(x);
+            default:
+                return -1;
+        }
     }
 
-    @Override
-    public function initFromString(String s) {
-        return null;
-    }
-
-    @Override
     public function copy() {
-        return null;
+        ComplexFunction newC = new ComplexFunction(this.getOp(), this.left(), this.right());
+        return newC;
     }
 
     @Override
     public String toString(){
-        return null;
+        return (this.getOp().toString()+'('+this.left().toString()+','+this.right().toString()+')');
+    }
+
+    public function initFromString(String s) {
+        Operation o;
+        function l;
+        function r;
+
+        int bracketsBalance = 0;
+        int flag = 0;
+        String opS = "";
+        String leftS ="";
+        String rightS = "";
+
+        for (int i =0; i<s.length(); i++){
+            if (s.charAt(i)=='('){
+                opS = s.substring(0,flag);
+                bracketsBalance++;
+                flag = i;
+            }
+
+            if (s.charAt(i)==','){
+                if (bracketsBalance == 1){
+                    leftS = s.substring(flag+1,i);
+                    rightS = s.substring(i+1,s.length());
+                }
+            }
+        }
+
+        o = checkANDreturnOP(opS);
+
+        if (isMonom(leftS))
+            l = new Monom(leftS);
+        else if (isPolynom(leftS))
+            l = new Polynom(leftS);
+        else
+            l = new ComplexFunction(leftS);
+
+        if (isMonom(rightS))
+            r = new Monom(rightS);
+        else if (isPolynom(rightS))
+            r = new Polynom(rightS);
+        else
+            r = new ComplexFunction(rightS);
+
+
+        return new ComplexFunction(o,l,r);
+    }
+    private Operation checkANDreturnOP(String s){
+        switch (s) {
+            case "Plus":
+                return Operation.Plus;
+            case "Times":
+                return Operation.Times;
+            case "Divid":
+                return Operation.Divid;
+            case "Max":
+                return Operation.Max;
+            case "Min":
+                return Operation.Min;
+            case "Comp":
+                return Operation.Comp;
+            case "None":
+                return Operation.None;
+            default:
+                return Operation.Error;
+        }
+    }
+    private boolean isPolynom(String s) {
+        try{ Polynom p = new Polynom(s); }
+        catch (Exception e){ return false; }
+        return true;
+    }
+    private boolean isMonom(String s) {
+        try{ Monom m = new Monom(s); }
+        catch (Exception e){ return false;}
+        return true;
     }
 
     @Override
@@ -80,6 +188,13 @@ public class ComplexFunction implements complex_function {
         if (!(obj instanceof ComplexFunction))
             return false;
         ComplexFunction comp = new ComplexFunction((ComplexFunction) obj);
+        for (int i=0; i<50; i++){
+            double num = Math.random();
+            double thisN = this.f(num);
+            double otherN = comp.f(num);
+            if (Math.abs(thisN-otherN)>Monom.EPSILON)
+                return false;
+        }
         return true;
     }
 }

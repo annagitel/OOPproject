@@ -1,7 +1,5 @@
 package myMath;
-
 import org.junit.Test;
-
 import java.net.StandardSocketOptions;
 import java.util.Comparator;
 
@@ -212,14 +210,14 @@ public class Monom implements function{
 		return (coefs+pows);
 	}
 
-	@Override
 	public function initFromString(String s) {
-		return null;
+		Monom newM = new Monom(s);
+		return newM;
 	}
 
-	@Override
 	public function copy() {
-		return null;
+		Monom newM = new Monom(this.get_coefficient(), this.get_power());
+		return newM;
 	}
 
 	@Override
