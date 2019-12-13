@@ -182,6 +182,4 @@ public class Functions_GUI implements  functions {
     }
 
 
-    /*********************CLASS FOR JSON PARAMETERS******************/
-
 }
