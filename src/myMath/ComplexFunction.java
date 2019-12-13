@@ -1,11 +1,11 @@
 package myMath;
-import com.sun.source.tree.ReturnTree;
-import myMath.Monom.*;
+
 public class ComplexFunction implements complex_function {
     /************ private objects*****************************/
     private Operation op = Operation.None;
     private function left ;
     private function right = null;
+    public ComplexFunction(){};
 
     /************ getters*************************************/
     public function left() {
@@ -43,37 +43,43 @@ public class ComplexFunction implements complex_function {
 
     /******************public functions****************************/
     public void plus(function f1) {
-        this.left = this.copy();
+        ComplexFunction t= (ComplexFunction) this.copy();
+        this.left = t;
         this.right = f1;
         this.op = Operation.Plus;
     }
 
     public void mul(function f1) {
-        this.left = this.copy();
+        ComplexFunction t= (ComplexFunction) this.copy();
+        this.left = t;
         this.right = f1;
         this.op = Operation.Times;
     }
 
     public void div(function f1) {
-        this.left = this.copy();
+        ComplexFunction t= (ComplexFunction) this.copy();
+        this.left = t;
         this.right = f1;
         this.op = Operation.Divid;
     }
 
     public void max(function f1) {
-        this.left = this.copy();
+        ComplexFunction t= (ComplexFunction) this.copy();
+        this.left = t;
         this.right = f1;
         this.op = Operation.Max;
     }
 
     public void min(function f1) {
-        this.left = this.copy();
+        ComplexFunction t= (ComplexFunction) this.copy();
+        this.left = t;
         this.right = f1;
         this.op = Operation.Min;
     }
 
     public void comp(function f1) {
-        this.left = this.copy();
+        ComplexFunction t= (ComplexFunction) this.copy();
+        this.left = t;
         this.right = f1;
         this.op = Operation.Comp;
     }
@@ -188,7 +194,7 @@ public class ComplexFunction implements complex_function {
         if (!(obj instanceof ComplexFunction))
             return false;
         ComplexFunction comp = new ComplexFunction((ComplexFunction) obj);
-        for (int i=0; i<50; i++){
+        for (int i=-50; i<50; i++){
             double num = Math.random();
             double thisN = this.f(num);
             double otherN = comp.f(num);
