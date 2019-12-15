@@ -135,47 +135,51 @@ public class ComplexFunction implements complex_function {
     }
 
     public function initFromString(String s) {
-        s=s.replaceAll(" ", "");
-        try{
-           if (isPolynom(s))
-               return new Polynom(s);
+        Operation o;
+        function l;
+        function r;
+
+        int bracketsBalance = 0;
+        int flag = 0;
+        String opS = "";
+        String leftS ="";
+        String rightS = "";
+
+        for (int i =0; i<s.length(); i++){
+            if (s.charAt(i)=='('){
+                opS = s.substring(0,flag);
+                bracketsBalance++;
+                flag = i;
+            }
+
+            if (s.charAt(i)==','){
+                if (bracketsBalance == 1){
+                    leftS = s.substring(flag+1,i);
+                    rightS = s.substring(i+1,s.length());
+                }
+            }
         }
-        catch (Exception e) {}
-        try{
-            if (isMonom(s))
-                return new Monom(s);
-        }
-        catch (Exception e) {}
-        ComplexFunction f= new ComplexFunction();
-        String operation= stringOp(s);
-        String left=stringLeft(s);
-        String right=stringRight(s);
-        f.op=checkO(operation);
-        if (isPolynom(right)){
-            f.right = new Polynom(right);
-        }
-        else {
-            f.right = new ComplexFunction();
-            f.right=initFromString(right);
-        }
-        if (isPolynom(left)){
-            f.left = new Polynom(left);
-        }
-        else {
-            f.left = new ComplexFunction();
-            f.left=initFromString(left);
-        }
-        return f;
+
+        o = checkO(opS);
+
+        if (isMonom(leftS))
+            l = new Monom(leftS);
+        else if (isPolynom(leftS))
+            l = new Polynom(leftS);
+        else
+            l = new ComplexFunction(leftS);
+
+        if (isMonom(rightS))
+            r = new Monom(rightS);
+        else if (isPolynom(rightS))
+            r = new Polynom(rightS);
+        else
+            r = new ComplexFunction(rightS);
+
+
+        return new ComplexFunction(o,l,r);
     }
-    private String stringOp (String s) {
-        String t="";
-        int i=0;
-        while(i<s.length()&&s.charAt(i)!='(') {
-            t+=s.charAt(i);
-            i++;
-        }
-        return t;
-    }
+
     private String stringLeft(String s) {
         int counter=0;
         int start=0;
