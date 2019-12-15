@@ -1,4 +1,4 @@
-package myMath;
+package Ex1;
 
 import java.awt.*;
 import java.io.*;
@@ -91,6 +91,10 @@ public class Functions_GUI implements  functions {
         }
     }
 
+    public void drawFunctions(){
+        drawFunctions(750, 750, new Range(-15,15), new Range (-15,15),500 );
+
+    }
     @Override
     public void drawFunctions(String json_file) {
         Gson gson = new Gson();

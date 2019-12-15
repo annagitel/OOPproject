@@ -1,4 +1,4 @@
-package myMath;
+package Ex1;
 
 public class ComplexFunction implements complex_function {
     /************ private objects*****************************/
@@ -21,19 +21,38 @@ public class ComplexFunction implements complex_function {
     }
     /************constractors**********************************/
 
+    public ComplexFunction(Operation o, function l){ //init from single function object
+        op = Operation.None;
+        left = l;
+        right = null;
+    }
     public ComplexFunction(function l){ //init from single function object
         op = Operation.None;
         left = l;
         right = null;
     }
-
+    public ComplexFunction(String o, function l){ //init from single function object
+        op = Operation.None;
+        left = l;
+        right = null;
+    }
+    public ComplexFunction(function l, function r){ //init from single function object
+        op = Operation.None;
+        left = l;
+        right = r;
+    }
     public ComplexFunction(ComplexFunction comp){ //copy constractor
         this.op = comp.getOp();
         this.left = comp.left();
         this.right = comp.right();
     }
-    public ComplexFunction(Operation o, function l, function r){ //init with given objects
-        this.op = o;
+    public ComplexFunction(String  o, function l, function r){ //init with given objects
+        this.op =checkO(o);
+        this.left = l;
+        this.right = r;
+    }
+    public ComplexFunction(Operation  o, function l, function r){ //init with given objects
+        this.op =o;
         this.left = l;
         this.right = r;
     }
@@ -189,6 +208,27 @@ public class ComplexFunction implements complex_function {
         return true;
     }
 
+    private Operation checkO(String str){
+        str=str.toLowerCase();
+        switch(str){
+            case ("plus"):
+                return Operation.Plus;
+            case ("mul"):
+                return Operation.Times;
+            case ("div"):
+                return  Operation.Divid;
+            case ("max"):
+                return Operation.Max;
+            case ("min"):
+                return Operation.Min;
+            case ("comp"):
+                return Operation.Comp;
+            case (""):
+                return Operation.None;
+            default:
+                return Operation.Error;
+        }
+    }
     @Override
     public boolean equals(Object obj){
         if (!(obj instanceof ComplexFunction))
