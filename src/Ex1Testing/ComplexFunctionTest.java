@@ -29,7 +29,7 @@ public class ComplexFunctionTest {
 			Polynom p = new Polynom(poly[i]);
 			f.mul(p);
 		}
-		assertEquals("Mul(Mul(Plus(2.0x,3.0x+1.0),3.0x),7.0x+2.0)", f.toString());
+		assertEquals("(Mul(Plus(2.0x,3.0x+1.0),3.0x),7.0x+2.0)", f.toString());
 	}
 
 	@Test

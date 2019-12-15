@@ -63,19 +63,18 @@ class PolynomTest {
 
     @Test
     void testIsZero() {
-        String[] poly = { "0", "00", "0x" };
-        Polynom sum = new Polynom();
-        for (int i = 0; i < poly.length; i++) {
-            Polynom p = new Polynom(poly[i]);
-            sum.add(p);
+        String[] polyT = { "0+0x+0x^8-0", "0x-0+0x^5"};
+        for (int i = 0; i < polyT.length; i++) {
+            Polynom p = new Polynom(polyT[i]);
+            assertTrue(p.isZero());
         }
-        assertTrue(sum.isZero());
+
     }
 
     @Test
     void testCopy() {
 
-        Polynom P = new Polynom("2x^+4x-5");
+        Polynom P = new Polynom("2x^8+4x-5");
         Polynom PCopy = (Polynom) P.copy();
 
         assertEquals(P, PCopy);

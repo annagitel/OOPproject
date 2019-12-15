@@ -1,28 +1,22 @@
 package Ex1Testing;
 
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import Ex1.Monom;
 
 class MonomTest {
-
     @Test
     void testF() {
-        String[] monoms = { "10x", "2x", "15.27x" };
-        double y = 0;
-        double x = 2;
-
-        for (int i = 0; i < monoms.length; i++) {
-            Monom m = new Monom(monoms[i]);
-            y += m.f(x);
-
+        String[] mon = { "2x", "4x", "7x", "-15x" };
+        int[] a = {10,20,35,-75};
+        for (int i = 0; i < mon.length; i++) {
+            Monom m = new Monom(mon[i]);
+            assertEquals(m.f(5),a[i]);
         }
-        assertEquals(10 * x + 2 * x + 15.27 * x, y);
     }
 
     @Test
-    void testDerivativeSum() {
+    void testDerivative() {
         String[] Monom = { "2x", "4x", "7x", "15x" };
         Monom sum = new Monom("0");
 
@@ -36,13 +30,17 @@ class MonomTest {
 
     @Test
     void testIsZero() {
-        String[] monoms = { "0", "00", "0x" };
-        Monom sum = new Monom("0");
-        for (int i = 0; i < monoms.length; i++) {
-            Monom m = new Monom(monoms[i]);
-            sum.add(m);
+        String[] monomsT = { "0", "0x", "0x^5"};
+        for (int i = 0; i < monomsT.length; i++) {
+            Monom m = new Monom(monomsT[i]);
+            assertTrue(m.isZero());
         }
-        assertTrue(sum.isZero());
+        String[] monomsF = { "-8", "4x", "6x^9"};
+        for (int i = 0; i < monomsF.length; i++) {
+            Monom m = new Monom(monomsF[i]);
+            assertFalse(m.isZero());
+        }
+
     }
 
     @Test
@@ -60,22 +58,27 @@ class MonomTest {
 
     @Test
     void testMultiply() {
-        Monom m1 = new Monom("7x");
-        String[] monoms = { "2x", "x" };
+        Monom orig = new Monom("7x");
+        String[] monoms = { "2x^4", "-6x", "x" };
 
         for (int i = 0; i < monoms.length; i++) {
-            Monom m2 = new Monom(monoms[i]);
-            m1.multipy(m2);
+            Monom m = new Monom(monoms[i]);
+            orig.multipy(m);
         }
-
-        assertEquals("14.0x^3", m1.toString());
+        assertEquals("-84.0x^7", orig.toString());
     }
 
     @Test
     void testEquals() {
-        Monom p = new Monom("7x^6");
-        Monom s = new Monom("7x^6");
-        assertTrue(p.equals(s));
+        Monom a = new Monom("13x^6");
+        Monom b = new Monom("13x^6");
+        Monom c = new Monom("-8x^9");
+        Monom d = new Monom("-8x^9");
+        Monom e = new Monom("x^2");
+        Monom f = new Monom("x^2");
+        assertTrue(a.equals(b));
+        assertTrue(c.equals(d));
+        assertTrue(e.equals(f));
     }
 
     @Test

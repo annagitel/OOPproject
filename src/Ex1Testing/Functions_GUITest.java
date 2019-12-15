@@ -1,9 +1,7 @@
+package Ex1Testing;
 
-
-import java.io.IOException;
 import java.util.Iterator;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,16 +25,17 @@ import Ex1.functions;
  4) java.awt.Color[r=255,g=0,b=0]  f(x)= +0.1x^5 -1.2999999999999998x +5.0
  5) java.awt.Color[r=0,g=255,b=0]  f(x)= max(max(max(max(plus(-1.0x^4 +2.4x^2 +3.1,+0.1x^5 -1.2999999999999998x +5.0),plus(div(+1.0x +1.0,mul(mul(+1.0x +3.0,+1.0x -2.0),+1.0x -4.0)),2.0)),div(plus(-1.0x^4 +2.4x^2 +3.1,+0.1x^5 -1.2999999999999998x +5.0),-1.0x^4 +2.4x^2 +3.1)),-1.0x^4 +2.4x^2 +3.1),+0.1x^5 -1.2999999999999998x +5.0)
  6) java.awt.Color[r=255,g=175,b=175]  f(x)= min(min(min(min(plus(-1.0x^4 +2.4x^2 +3.1,+0.1x^5 -1.2999999999999998x +5.0),plus(div(+1.0x +1.0,mul(mul(+1.0x +3.0,+1.0x -2.0),+1.0x -4.0)),2.0)),div(plus(-1.0x^4 +2.4x^2 +3.1,+0.1x^5 -1.2999999999999998x +5.0),-1.0x^4 +2.4x^2 +3.1)),-1.0x^4 +2.4x^2 +3.1),+0.1x^5 -1.2999999999999998x +5.0)
+
  * @author boaz_benmoshe
  *
  */
 class Functions_GUITest {
-	public static void main(String[] a) throws IOException {
+	public static void main(String[] a) {
 		functions data = FunctionsFactory();
-		int w=1000, h=600, res=200;
-		Range rx = new Range(-10,10);
-		Range ry = new Range(-5,15);
-		data.drawFunctions(w,h,rx,ry,res);
+		//	int w=1000, h=600, res=200;
+		//	Range rx = new Range(-10,10);
+		//	Range ry = new Range(-5,15);
+//		data.drawFunctions(w,h,rx,ry,res);
 		String file = "function_file.txt";
 		String file2 = "function_file2.txt";
 		try {
@@ -47,80 +46,46 @@ class Functions_GUITest {
 		}
 		catch(Exception e) {e.printStackTrace();}
 
-		String JSON_param_file = "GUI_params.json";
+		String JSON_param_file = "GUI_params.txt";
 		data.drawFunctions(JSON_param_file);
 	}
 	private functions _data=null;
-
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-
-	}
+//	@BeforeAll
+//	static void setUpBeforeClass() throws Exception {
+//	}
 
 	@BeforeEach
 	void setUp() throws Exception {
 		_data = FunctionsFactory();
 	}
 
-	@Test
+	//@Test
 	void testFunctions_GUI() {
-		Functions_GUI gg= new Functions_GUI();
-		gg.addAll(_data);
-		gg.drawFunctions();
-
+		//	fail("Not yet implemented");
 	}
 
-	@Test
+	//@Test
 	void testInitFromFile() {
-		Functions_GUI gg = new Functions_GUI();
-		//gg.add(new Polynom("x"));
-		//gg.add(new ComplexFunction("plus(x,x)"));
-		try {
-			gg.saveToFile("myFile");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		gg.clear();
-		try {
-			gg.initFromFile("myFile");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		gg.drawFunctions();
-
+		//	fail("Not yet implemented");
 	}
 
-	@Test
+	//@Test
 	void testSaveToFile() {
-		Functions_GUI gg = new Functions_GUI();
-		gg.add(new Polynom("x"));
-		gg.add(new ComplexFunction("plus(x,x)"));
-		try {
-			gg.saveToFile("myFile");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		gg.clear();
-		try {
-			gg.initFromFile("myFile");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		gg.drawFunctions();
+
 
 	}
 
-	@Test
+	//@Test
 	void testDrawFunctions() {
-		((Functions_GUI)_data).drawFunctions();
-
+		//_data.drawFunctions();
+		//	fail("Not yet implemented");
 	}
 
 	@Test
-	void testDrawFunctionsIntIntRangeRangeInt() throws IOException {
+	void testDrawFunctionsIntIntRangeRangeInt() {
 		_data.drawFunctions("GUI_params.txt");
+		//fail("Not yet implemented");
 	}
-
 	public static functions FunctionsFactory() {
 		functions ans = new Functions_GUI();
 		String s1 = "3.1 +2.4x^2 -x^4";

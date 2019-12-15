@@ -129,74 +129,97 @@ public class ComplexFunction implements complex_function {
 
     @Override
     public String toString(){
-        return (this.getOp().toString()+'('+this.left().toString()+','+this.right().toString()+')');
+        if(op == Operation.None)
+            return left.toString();
+        return this.op.toString()+"("+this.left+","+this.right+")";
     }
 
     public function initFromString(String s) {
-        Operation o;
-        function l;
-        function r;
-
-        int bracketsBalance = 0;
-        int flag = 0;
-        String opS = "";
-        String leftS ="";
-        String rightS = "";
-
-        for (int i =0; i<s.length(); i++){
-            if (s.charAt(i)=='('){
-                opS = s.substring(0,flag);
-                bracketsBalance++;
-                flag = i;
+        s=s.replaceAll(" ", "");
+        try{
+           if (isPolynom(s))
+               return new Polynom(s);
+        }
+        catch (Exception e) {}
+        try{
+            if (isMonom(s))
+                return new Monom(s);
+        }
+        catch (Exception e) {}
+        ComplexFunction f= new ComplexFunction();
+        String operation= stringOp(s);
+        String left=stringLeft(s);
+        String right=stringRight(s);
+        f.op=checkO(operation);
+        if (isPolynom(right)){
+            f.right = new Polynom(right);
+        }
+        else {
+            f.right = new ComplexFunction();
+            f.right=initFromString(right);
+        }
+        if (isPolynom(left)){
+            f.left = new Polynom(left);
+        }
+        else {
+            f.left = new ComplexFunction();
+            f.left=initFromString(left);
+        }
+        return f;
+    }
+    private String stringOp (String s) {
+        String t="";
+        int i=0;
+        while(i<s.length()&&s.charAt(i)!='(') {
+            t+=s.charAt(i);
+            i++;
+        }
+        return t;
+    }
+    private String stringLeft(String s) {
+        int counter=0;
+        int start=0;
+        int end=0;
+        for(int i=0;(i<s.length());i++){
+            if(s.charAt(i)=='('){
+                counter++;
+                if(start==0){
+                    start=i+1;
+                }
             }
-
-            if (s.charAt(i)==','){
-                if (bracketsBalance == 1){
-                    leftS = s.substring(flag+1,i);
-                    rightS = s.substring(i+1,s.length());
+            if(s.charAt(i)==','){
+                counter--;
+                if(counter==0){
+                    end=i;
+                    break;
                 }
             }
         }
-
-        o = checkANDreturnOP(opS);
-
-        if (isMonom(leftS))
-            l = new Monom(leftS);
-        else if (isPolynom(leftS))
-            l = new Polynom(leftS);
-        else
-            l = new ComplexFunction(leftS);
-
-        if (isMonom(rightS))
-            r = new Monom(rightS);
-        else if (isPolynom(rightS))
-            r = new Polynom(rightS);
-        else
-            r = new ComplexFunction(rightS);
-
-
-        return new ComplexFunction(o,l,r);
+        return s.substring(start,end);
     }
-    private Operation checkANDreturnOP(String s){
-        switch (s) {
-            case "Plus":
-                return Operation.Plus;
-            case "Times":
-                return Operation.Times;
-            case "Divid":
-                return Operation.Divid;
-            case "Max":
-                return Operation.Max;
-            case "Min":
-                return Operation.Min;
-            case "Comp":
-                return Operation.Comp;
-            case "None":
-                return Operation.None;
-            default:
-                return Operation.Error;
+    private String stringRight(String s) {
+        int counter=0;
+        int start=0;
+        int end=0;
+        int length=s.length();
+        for(int i=0;(i<s.length());i++){
+            if(s.charAt(i)=='('){
+                counter++;
+                if(start==0){
+                    start=i+1;
+                }
+            }
+            if(s.charAt(i)==','){
+                counter--;
+                if(counter==0){
+                    end=i;
+                    break;
+                }
+            }
         }
+        return s.substring(end+1,length-1);
     }
+
     private boolean isPolynom(String s) {
         try{ Polynom p = new Polynom(s); }
         catch (Exception e){ return false; }
@@ -211,18 +234,18 @@ public class ComplexFunction implements complex_function {
     private Operation checkO(String str){
         str=str.toLowerCase();
         switch(str){
-            case ("plus"):
-                return Operation.Plus;
-            case ("mul"):
-                return Operation.Times;
-            case ("div"):
-                return  Operation.Divid;
             case ("max"):
                 return Operation.Max;
             case ("min"):
                 return Operation.Min;
             case ("comp"):
                 return Operation.Comp;
+            case ("plus"):
+                return Operation.Plus;
+            case ("mul"):
+                return Operation.Times;
+            case ("div"):
+                return  Operation.Divid;
             case (""):
                 return Operation.None;
             default:
