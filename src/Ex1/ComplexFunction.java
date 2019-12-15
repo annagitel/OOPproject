@@ -180,49 +180,7 @@ public class ComplexFunction implements complex_function {
         return new ComplexFunction(o,l,r);
     }
 
-    private String stringLeft(String s) {
-        int counter=0;
-        int start=0;
-        int end=0;
-        for(int i=0;(i<s.length());i++){
-            if(s.charAt(i)=='('){
-                counter++;
-                if(start==0){
-                    start=i+1;
-                }
-            }
-            if(s.charAt(i)==','){
-                counter--;
-                if(counter==0){
-                    end=i;
-                    break;
-                }
-            }
-        }
-        return s.substring(start,end);
-    }
-    private String stringRight(String s) {
-        int counter=0;
-        int start=0;
-        int end=0;
-        int length=s.length();
-        for(int i=0;(i<s.length());i++){
-            if(s.charAt(i)=='('){
-                counter++;
-                if(start==0){
-                    start=i+1;
-                }
-            }
-            if(s.charAt(i)==','){
-                counter--;
-                if(counter==0){
-                    end=i;
-                    break;
-                }
-            }
-        }
-        return s.substring(end+1,length-1);
-    }
+   
 
     private boolean isPolynom(String s) {
         try{ Polynom p = new Polynom(s); }
